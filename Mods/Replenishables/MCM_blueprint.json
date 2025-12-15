@@ -1,0 +1,31 @@
+{
+    "ModName": "Replenishables",
+    "ModDescription": "",
+    "Optional": true,
+    "SchemaVersion": 1,
+    "Tabs": [
+        {
+            "TabName": "General",
+            "TabId": "General",
+            "Settings": [
+                { "Id": "KillScale", "Name": "Kill Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.1, "Tooltip": "The scale for amount of cooldown recieved." },
+                { "Id": "KillCombat", "Name": "Kill Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." },
+
+                { "Id": "AttackScale", "Name": "Attack Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.01, "Tooltip": "The scale for amount of cooldown recieved." },
+                { "Id": "AttackCombat", "Name": "Attack Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." },
+
+                { "Id": "HurtScale", "Name": "Hurt Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.045, "Tooltip": "The scale for amount of cooldown recieved." },
+                { "Id": "HurtCombat", "Name": "Hurt Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." },
+
+                { "Id": "CastScale", "Name": "Cast Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.015, "Tooltip": "The scale for amount of cooldown recieved." },
+                { "Id": "CastCombat", "Name": "Cast Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." },
+
+                { "Id": "TurnScale", "Name": "Turn Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.06, "Tooltip": "The scale for amount of cooldown recieved." },
+                { "Id": "TurnCombat", "Name": "Turn Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." },
+
+                { "Id": "ReductionScale", "Name": "Reduction Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.18, "Tooltip": "The scale for amount of cooldown recieved." },
+                { "Id": "ReductionCombat", "Name": "Reduction Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." }
+            ]
+        }
+    ]
+}

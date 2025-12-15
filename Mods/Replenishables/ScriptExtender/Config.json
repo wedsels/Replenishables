@@ -1,0 +1,5 @@
+{
+    "RequiredVersion": 24,
+    "ModTable": "Replenishables",
+    "FeatureFlags": [ "Lua" ]
+}
