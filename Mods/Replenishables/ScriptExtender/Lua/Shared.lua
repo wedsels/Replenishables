@@ -33,7 +33,7 @@ _S.ReplenishType = {
 }
 
 _S.CooldownSource = {}
-for index,type in ipairs( { "Kill", "Attack", "Hurt", "Cast", "Turn", "Reduction" } ) do
+for index,type in ipairs( { "Kill", "Attack", "Hurt", "Cast", "Turn", "Reduction", "Passive" } ) do
     _S.CooldownSource[ index ] = type
     _S.CooldownSource[ type ] = index
 end
@@ -144,6 +144,65 @@ _S.Cooldown = function( ent, uuid, level )
             return _S.ReplenishType[ resource.ReplenishType[ 1 ] ] / ( 1.0 + resource.Amount * 0.33 - math.max( 1.0, resource.Level ) * 0.33 )
         end
     end
+end
+
+_S.AbilityCooldownLink = {
+    [ _S.CooldownSource.Kill ] = {
+        Ability = "Strength",
+        Scale = 0.1,
+        Combat = false
+    },
+    [ _S.CooldownSource.Attack ] = {
+        Ability = "Dexterity",
+        Scale = 0.01,
+        Combat = true
+    },
+    [ _S.CooldownSource.Hurt ] = {
+        Ability = "Constitution",
+        Scale = 0.045,
+        Combat = false
+    },
+    [ _S.CooldownSource.Cast ] = {
+        Ability = "Intelligence",
+        Scale = 0.015,
+        Combat = true
+    },
+    [ _S.CooldownSource.Turn ] = {
+        Ability = "Wisdom",
+        Scale = 0.06,
+        Combat = true
+    },
+    [ _S.CooldownSource.Reduction ] = {
+        Ability = "Charisma",
+        Scale = 0.18,
+        Combat = false
+    },
+    [ _S.CooldownSource.Passive ] = {
+        Ability = "",
+        Scale = 0.0
+    }
+}
+
+if MCM then
+    local function UpdateStats()
+        for event,link in pairs( _S.AbilityCooldownLink ) do
+            for var,_ in pairs( link ) do
+                link[ var ] = MCM.Get( _S.CooldownSource[ event ] .. var )
+            end
+        end
+    end
+
+    UpdateStats()
+
+    Ext.ModEvents.BG3MCM[ "MCM_Setting_Saved" ]:Subscribe(
+        function( payload )
+            if not payload or payload.modUUID ~= ModuleUUID or not payload.settingId then
+                return
+            end
+
+            UpdateStats()
+        end
+    )
 end
 
 return _S

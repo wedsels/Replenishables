@@ -15,7 +15,7 @@ return function( _S, _V )
 
     _F.TriggerCooldown = function( ent, trigger )
         local abi = ent.Stats and ent.Stats.Abilities
-        local link = _V.AbilityCooldownLink[ trigger ]
+        local link = _S.AbilityCooldownLink[ trigger ]
         if not abi or not link or link.Combat and ( not ent.CombatParticipant or not ent.CombatParticipant.CombatHandle ) then return end
 
         for uuid,levels in pairs( ent.Vars.Replenishables ) do
@@ -27,7 +27,7 @@ return function( _S, _V )
                     if cooldown > -1.0 then
                         local rep = _F.Replenishable( ent, uuid, level )
 
-                        rep.Set( rep.Get() + abi[ link.Ability ] * link.Scale )
+                        rep.Set( rep.Get() + ( link.Ability and _S.Abilities[ link.Ability ] and abi[ _S.Abilities[ link.Ability ] ] or 1.0 ) * link.Scale )
                     end
                 end
             end

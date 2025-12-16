@@ -19,7 +19,7 @@ return function( _S, _V, _F )
             for _,spell in pairs( ent.SpellBookCooldowns.Cooldowns ) do
                 local name = spell.SpellId.Prototype
                 if _S.Resources[ name ] then
-                    _F.Replenishable( ent, name, 0 ).Set( ent.Stats and ent.Stats.Abilities[ _V.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Ability ] * _V.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Scale or 0 )
+                    _F.Replenishable( ent, name, 0 ).Set( ent.Stats and ent.Stats.Abilities[ _S.Abilities[ _S.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Ability ] ] * _S.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Scale or 0 )
 
                     _F.UpdateProgress( ent )
 
@@ -51,7 +51,7 @@ return function( _S, _V, _F )
 
                         if resource.Amount < resource.MaxAmount then
                             if rep.Get() < 0.0 then
-                                rep.Set( ent.Stats and ent.Stats.Abilities[ _V.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Ability ] * _V.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Scale or 0 )
+                                rep.Set( ent.Stats and ent.Stats.Abilities[ _S.Abilities[ _S.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Ability ] ] * _S.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Scale or 0 )
                             end
 
                             _F.UpdateProgress( ent )
@@ -60,6 +60,24 @@ return function( _S, _V, _F )
 
                             _F.UpdateProgress( ent )
                         end
+                    end
+                end
+            end
+        end
+    )
+
+    local TickCount = 0
+    Ext.Events.Tick:Subscribe(
+        function()
+            TickCount = TickCount + 1
+
+            if TickCount % 60 == 0 then
+                TickCount = 0
+
+                for _,uuid in ipairs( Osi.DB_Players:Get( nil) ) do
+                    local ent = Ext.Entity.Get( uuid[ 1 ] )
+                    if ent and ( not ent.CombatParticipant or not ent.CombatParticipant.CombatHandle ) then
+                        _F.TriggerCooldown( ent, _S.CooldownSource.Passive )
                     end
                 end
             end

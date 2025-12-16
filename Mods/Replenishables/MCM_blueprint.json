@@ -5,26 +5,65 @@
     "SchemaVersion": 1,
     "Tabs": [
         {
-            "TabName": "General",
-            "TabId": "General",
+            "TabName": "Kill",
+            "TabId": "Kill",
             "Settings": [
-                { "Id": "KillScale", "Name": "Kill Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.1, "Tooltip": "The scale for amount of cooldown recieved." },
-                { "Id": "KillCombat", "Name": "Kill Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." },
-
-                { "Id": "AttackScale", "Name": "Attack Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.01, "Tooltip": "The scale for amount of cooldown recieved." },
-                { "Id": "AttackCombat", "Name": "Attack Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." },
-
-                { "Id": "HurtScale", "Name": "Hurt Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.045, "Tooltip": "The scale for amount of cooldown recieved." },
-                { "Id": "HurtCombat", "Name": "Hurt Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." },
-
-                { "Id": "CastScale", "Name": "Cast Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.015, "Tooltip": "The scale for amount of cooldown recieved." },
-                { "Id": "CastCombat", "Name": "Cast Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." },
-
-                { "Id": "TurnScale", "Name": "Turn Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.06, "Tooltip": "The scale for amount of cooldown recieved." },
-                { "Id": "TurnCombat", "Name": "Turn Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." },
-
-                { "Id": "ReductionScale", "Name": "Reduction Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.18, "Tooltip": "The scale for amount of cooldown recieved." },
-                { "Id": "ReductionCombat", "Name": "Reduction Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." }
+                { "Id": "KillAbility", "Name": "Ability", "Type": "radio", "Options": { "Choices": [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "" ] }, "Default": "Strength", "Tooltip": "Which Ability Modifier this will be scaled by." },
+                { "Id": "KillScale", "Name": "Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.1, "Tooltip": "How well it will scale with the Ability Modifier." },
+                { "Id": "KillCombat", "Name": "Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." }
+            ]
+        },
+        {
+            "TabName": "Attack",
+            "TabId": "Attack",
+            "Settings": [
+                { "Id": "AttackAbility", "Name": "Ability", "Type": "radio", "Options": { "Choices": [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "" ] }, "Default": "Dexterity", "Tooltip": "Which Ability Modifier this will be scaled by." },
+                { "Id": "AttackScale", "Name": "Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.01, "Tooltip": "How well it will scale with the Ability Modifier." },
+                { "Id": "AttackCombat", "Name": "Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." }
+            ]
+        },
+        {
+            "TabName": "Hurt",
+            "TabId": "Hurt",
+            "Settings": [
+                { "Id": "HurtAbility", "Name": "Ability", "Type": "radio", "Options": { "Choices": [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "" ] }, "Default": "Constitution", "Tooltip": "Which Ability Modifier this will be scaled by." },
+                { "Id": "HurtScale", "Name": "Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.045, "Tooltip": "How well it will scale with the Ability Modifier." },
+                { "Id": "HurtCombat", "Name": "Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." }
+            ]
+        },
+        {
+            "TabName": "Cast",
+            "TabId": "Cast",
+            "Settings": [
+                { "Id": "CastAbility", "Name": "Ability", "Type": "radio", "Options": { "Choices": [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "" ] }, "Default": "Intelligence", "Tooltip": "Which Ability Modifier this will be scaled by." },
+                { "Id": "CastScale", "Name": "Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.015, "Tooltip": "How well it will scale with the Ability Modifier." },
+                { "Id": "CastCombat", "Name": "Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." }
+            ]
+        },
+        {
+            "TabName": "Turn",
+            "TabId": "Turn",
+            "Settings": [
+                { "Id": "TurnAbility", "Name": "Ability", "Type": "radio", "Options": { "Choices": [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "" ] }, "Default": "Wisdom", "Tooltip": "Which Ability Modifier this will be scaled by." },
+                { "Id": "TurnScale", "Name": "Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.06, "Tooltip": "How well it will scale with the Ability Modifier." },
+                { "Id": "TurnCombat", "Name": "Combat", "Type": "checkbox", "Default": true, "Tooltip": "If the cooldown is recieved only in combat." }
+            ]
+        },
+        {
+            "TabName": "Reduction",
+            "TabId": "Reduction",
+            "Settings": [
+                { "Id": "ReductionAbility", "Name": "Ability", "Type": "radio", "Options": { "Choices": [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "" ] }, "Default": "Charisma", "Tooltip": "Which Ability Modifier this will be scaled by." },
+                { "Id": "ReductionScale", "Name": "Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.18, "Tooltip": "How well it will scale with the Ability Modifier." },
+                { "Id": "ReductionCombat", "Name": "Combat", "Type": "checkbox", "Default": false, "Tooltip": "If the cooldown is recieved only in combat." }
+            ]
+        },
+        {
+            "TabName": "Passive",
+            "TabId": "Passive",
+            "Settings": [
+                { "Id": "PassiveAbility", "Name": "Ability", "Type": "radio", "Options": { "Choices": [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "" ] }, "Default": "", "Tooltip": "Which Ability Modifier this will be scaled by." },
+                { "Id": "PassiveScale", "Name": "Scale", "Type": "slider_float", "Options": { "Min": 0.0, "Max": 1.0 }, "Default": 0.0, "Tooltip": "How well it will scale with the Ability Modifier." }
             ]
         }
     ]
