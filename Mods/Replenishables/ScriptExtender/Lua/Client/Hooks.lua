@@ -14,11 +14,22 @@ return function( _S, _V, _F )
         end
     )
 
+    local tick = 0
     Ext.Events.Tick:Subscribe(
         function()
-            local ent = _C()
-            if ent then
-                _F.UpdateStrings( ent )
+            tick = tick + 1
+
+            if tick > 30 then
+                tick = 0
+
+                local ent = _C()
+                if ent and ent.Vars.ReplenishablesModified then
+                    for uuid,levels in pairs( ent.Vars.ReplenishablesModified ) do
+                        _F.UpdateStrings( ent, uuid, levels )
+                    end
+
+                    ent.Vars.ReplenishablesModified = {}
+                end
             end
         end
     )

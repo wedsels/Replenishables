@@ -8,8 +8,17 @@ return function( _S, _V )
         level = tostring( level )
 
         return {
-            Get = function() return ent.Vars.Replenishables and ent.Vars.Replenishables[ uuid ] and tonumber( ent.Vars.Replenishables[ uuid ][ level ] ) or -1.0 end,
-            Set = function( v ) ent.Vars.Replenishables[ uuid ][ level ] = v and tostring( v ) or v ent.Vars.Replenishables = ent.Vars.Replenishables end
+            Get = function()
+                return ent.Vars.Replenishables and ent.Vars.Replenishables[ uuid ] and tonumber( ent.Vars.Replenishables[ uuid ][ level ] ) or -1.0
+            end,
+            Set = function( v )
+                ent.Vars.Replenishables[ uuid ][ level ] = v and tostring( v ) or v
+                ent.Vars.Replenishables = ent.Vars.Replenishables
+
+                ent.Vars.ReplenishablesModified[ uuid ] = ent.Vars.ReplenishablesModified[ uuid ] or {}
+                ent.Vars.ReplenishablesModified[ uuid ][ level ] = ent.Vars.Replenishables[ uuid ][ level ]
+                ent.Vars.ReplenishablesModified = ent.Vars.ReplenishablesModified
+            end
         }
     end
 

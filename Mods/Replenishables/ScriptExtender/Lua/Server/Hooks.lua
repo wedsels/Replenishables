@@ -44,6 +44,10 @@ return function( _S, _V, _F )
                 ent.Vars.Replenishables = _S.DefaultResources()
             end
 
+            if not ent.Vars.ReplenishablesModified then
+                ent.Vars.ReplenishablesModified = {}
+            end
+
             for uuid,levels in pairs( ent.ActionResources.Resources ) do
                 for _,resource in ipairs( levels ) do
                     if _S.Resources[ uuid ] then
@@ -66,13 +70,13 @@ return function( _S, _V, _F )
         end
     )
 
-    local TickCount = 0
+    local tick = 0
     Ext.Events.Tick:Subscribe(
         function()
-            TickCount = TickCount + 1
+            tick = tick + 1
 
-            if TickCount % 60 == 0 then
-                TickCount = 0
+            if tick > 60 then
+                tick = 0
 
                 for _,uuid in ipairs( Osi.DB_Players:Get( nil) ) do
                     local ent = Ext.Entity.Get( uuid[ 1 ] )

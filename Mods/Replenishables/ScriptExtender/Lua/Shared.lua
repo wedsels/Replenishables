@@ -1,3 +1,29 @@
+Ext.Vars.RegisterUserVariable( "Replenishables", {
+    Server = true,
+    Client = true,
+    WriteableOnServer = true,
+    WriteableOnClient = true,
+    Persistent = true,
+    SyncToClient = true,
+    SyncToServer = true,
+    SyncOnTick = true,
+    SyncOnWrite = false,
+    DontCache = false,
+} )
+
+Ext.Vars.RegisterUserVariable( "ReplenishablesModified", {
+    Server = true,
+    Client = true,
+    WriteableOnServer = true,
+    WriteableOnClient = true,
+    Persistent = true,
+    SyncToClient = true,
+    SyncToServer = true,
+    SyncOnTick = true,
+    SyncOnWrite = false,
+    DontCache = false,
+} )
+
 --- @class _S
 local _S = {}
 
