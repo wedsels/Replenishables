@@ -13,17 +13,19 @@ return function( _S )
     _V.Handles = {}
     for uuid,_ in pairs( _V.PreviousResources ) do
         local data = Ext.Stats.Get( uuid ) or Ext.StaticData.Get( uuid, "ActionResource" )
-        if data then
+        if data and data.Description then
             _V.Handles[ uuid ] = {
                 Handle = data.Description.Handle and data.Description.Handle.Handle or data.Description,
                 Original = ""
             }
         end
 
-        _V.Handles[ uuid ].Original = Ext.Loca.GetTranslatedString( _V.Handles[ uuid ].Handle )
-        _V.Handles[ uuid ].Original = _V.Handles[ uuid ].Original:match( "^(.-)<>" ) or _V.Handles[ uuid ].Original
+        if  _V.Handles[ uuid ] then
+            _V.Handles[ uuid ].Original = Ext.Loca.GetTranslatedString( _V.Handles[ uuid ].Handle )
+            _V.Handles[ uuid ].Original = _V.Handles[ uuid ].Original:match( "^(.-)<>" ) or _V.Handles[ uuid ].Original
 
-        Ext.Loca.UpdateTranslatedString( _V.Handles[ uuid ].Handle, _V.Handles[ uuid ].Original )
+            Ext.Loca.UpdateTranslatedString( _V.Handles[ uuid ].Handle, _V.Handles[ uuid ].Original )
+        end
     end
 
     return _V

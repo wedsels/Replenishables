@@ -167,7 +167,7 @@ _S.Cooldown = function( ent, uuid, level )
 
     for _,resource in ipairs( levels ) do
         if resource.Level == tonumber( level ) then
-            return _S.ReplenishType[ resource.ReplenishType[ 1 ] ] / ( 1.0 + resource.Amount * 0.33 - math.max( 1.0, resource.Level ) * 0.33 )
+            return _S.ReplenishType[ resource.ReplenishType[ 1 ] ] / ( 1.0 + resource.Amount * 0.5 )
         end
     end
 end

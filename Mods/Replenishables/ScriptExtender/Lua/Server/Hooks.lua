@@ -28,7 +28,7 @@ return function( _S, _V, _F )
             end
 
             for uuid,levels in pairs( ent.Vars.Replenishables ) do
-                if not seen[ uuid ] and not levels[ "1" ] and tonumber( levels[ "0" ] ) > -1.0 and Ext.Stats.Get( uuid ) then
+                if not seen[ uuid ] and not levels[ "1" ] and ( tonumber( levels[ "0" ] ) or -1.0 ) > -1.0 and Ext.Stats.Get( uuid ) then
                     _F.Replenishable( ent, uuid, 0 ).Set( -1.0 )
 
                     _F.UpdateProgress( ent )
