@@ -3,15 +3,13 @@ return function( _S )
     --- @class _CV
     local _V = {}
 
-    _V.PreviousResources = _S.DefaultResources()
-
     --- @class Handle
     --- @field Handle string
     --- @field Original string
 
     --- @type table< string, Handle >
     _V.Handles = {}
-    for uuid,_ in pairs( _V.PreviousResources ) do
+    for uuid,_ in pairs( _S.Resources ) do
         local data = Ext.Stats.Get( uuid ) or Ext.StaticData.Get( uuid, "ActionResource" )
         if data and data.Description then
             _V.Handles[ uuid ] = {

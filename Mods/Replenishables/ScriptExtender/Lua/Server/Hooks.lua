@@ -44,10 +44,6 @@ return function( _S, _V, _F )
                 ent.Vars.Replenishables = _S.DefaultResources()
             end
 
-            if not ent.Vars.ReplenishablesModified then
-                ent.Vars.ReplenishablesModified = {}
-            end
-
             for uuid,levels in pairs( ent.ActionResources.Resources ) do
                 for _,resource in ipairs( levels ) do
                     if _S.Resources[ uuid ] then

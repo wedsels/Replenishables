@@ -12,12 +12,16 @@ return function( _S, _V )
                 return ent.Vars.Replenishables and ent.Vars.Replenishables[ uuid ] and tonumber( ent.Vars.Replenishables[ uuid ][ level ] ) or -1.0
             end,
             Set = function( v )
+                if not ent.Vars.Replenishables[ uuid ] then
+                    ent.Vars.Replenishables = _S.DefaultResources()
+                end
+
                 ent.Vars.Replenishables[ uuid ][ level ] = v and tostring( v ) or v
                 ent.Vars.Replenishables = ent.Vars.Replenishables
 
-                ent.Vars.ReplenishablesModified[ uuid ] = ent.Vars.ReplenishablesModified[ uuid ] or {}
-                ent.Vars.ReplenishablesModified[ uuid ][ level ] = ent.Vars.Replenishables[ uuid ][ level ]
-                ent.Vars.ReplenishablesModified = ent.Vars.ReplenishablesModified
+                if _C() then
+                    Ext.ServerNet.PostMessageToClient( _S.UUID( ent ), _S.Channel, Ext.Json.Stringify( { uuid = uuid, levels = ent.Vars.Replenishables[ uuid ] } ) )
+                end
             end
         }
     end

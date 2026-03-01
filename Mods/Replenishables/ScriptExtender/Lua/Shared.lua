@@ -1,23 +1,10 @@
 Ext.Vars.RegisterUserVariable( "Replenishables", {
     Server = true,
-    Client = true,
+    Client = false,
     WriteableOnServer = true,
-    WriteableOnClient = true,
+    WriteableOnClient = false,
     Persistent = true,
-    SyncToClient = true,
-    SyncToServer = true,
-    SyncOnTick = true,
-    SyncOnWrite = false,
-    DontCache = false,
-} )
-
-Ext.Vars.RegisterUserVariable( "ReplenishablesModified", {
-    Server = true,
-    Client = true,
-    WriteableOnServer = true,
-    WriteableOnClient = true,
-    Persistent = true,
-    SyncToClient = true,
+    SyncToClient = false,
     SyncToServer = true,
     SyncOnTick = true,
     SyncOnWrite = false,
@@ -26,6 +13,8 @@ Ext.Vars.RegisterUserVariable( "ReplenishablesModified", {
 
 --- @class _S
 local _S = {}
+
+_S.Channel = "ReplenishableChannel"
 
 _S.Abilities = {
     Strength = 2,
@@ -167,7 +156,7 @@ _S.Cooldown = function( ent, uuid, level )
 
     for _,resource in ipairs( levels ) do
         if resource.Level == tonumber( level ) then
-            return _S.ReplenishType[ resource.ReplenishType[ 1 ] ] / ( 1.0 + resource.Amount * 0.5 )
+            return _S.ReplenishType[ resource.ReplenishType[ 1 ] ] / ( 1.0 + resource.Amount * 0.5 ) * ( 1.0 + 0.25 * resource.Level )
         end
     end
 end
