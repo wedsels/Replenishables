@@ -19,8 +19,8 @@ return function( _S, _V )
                 ent.Vars.Replenishables[ uuid ][ level ] = v and tostring( v ) or v
                 ent.Vars.Replenishables = ent.Vars.Replenishables
 
-                if _C() then
-                    Ext.ServerNet.PostMessageToClient( _S.UUID( ent ), _S.Channel, Ext.Json.Stringify( { uuid = uuid, levels = ent.Vars.Replenishables[ uuid ] } ) )
+                if _V.Loaded then
+                    _S.Channel:SendToClient( { uuid = uuid, levels = ent.Vars.Replenishables[ uuid ] }, _S.UUID( ent ) )
                 end
             end
         }
@@ -50,6 +50,9 @@ return function( _S, _V )
     end
 
     _F.UpdateProgress = function( ent )
+        local ar = false
+        local sbc = false
+
         for uuid,levels in pairs( ent.ActionResources.Resources ) do
             if _S.Resources[ uuid ] then
                 for _,resource in pairs( levels ) do
@@ -62,9 +65,9 @@ return function( _S, _V )
                         local cooled = _S.Cooldown( ent, uuid, level )
 
                         if cooldown and cooldown > -1.0 and cooled and cooldown >= cooled then
-                            resource.Amount = math.min( resource.MaxAmount, resource.Amount + 1 )
-                            ent:Replicate( "ActionResources" )
                             rep.Set( -1.0 )
+                            resource.Amount = math.min( resource.MaxAmount, resource.Amount + 1 )
+                            ar = true
                         end
                     end
                 end
@@ -81,11 +84,19 @@ return function( _S, _V )
                 local cooled = _S.Cooldown( ent, name, 0 )
 
                 if cooldown and cooldown > -1.0 and cooled and cooldown >= cooled then
-                    ent.SpellBookCooldowns.Cooldowns[ _ ] = nil
-                    ent:Replicate( "SpellBookCooldowns" )
                     rep.Set( -1.0 )
+                    ent.SpellBookCooldowns.Cooldowns[ _ ] = nil
+                    sbc = true
                 end
             end
+        end
+
+        if ar then
+            ent:Replicate( "ActionResources" )
+        end
+
+        if sbc then
+            ent:Replicate( "SpellBookCooldowns" )
         end
     end
 

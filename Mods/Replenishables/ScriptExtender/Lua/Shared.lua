@@ -14,7 +14,7 @@ Ext.Vars.RegisterUserVariable( "Replenishables", {
 --- @class _S
 local _S = {}
 
-_S.Channel = "ReplenishableChannel"
+_S.Channel = Ext.Net.CreateChannel( ModuleUUID, "ReplenishableChannel" )
 
 _S.Abilities = {
     Strength = 2,
@@ -60,7 +60,7 @@ _S.DefaultResources = function()
     for _,uuid in ipairs( Ext.StaticData.GetAll( "ActionResource" ) ) do
         local data = Ext.StaticData.Get( uuid, "ActionResource" )
 
-        if data and not data.PartyActionResource and _S.ReplenishType[ data.ReplenishType[ 1 ] ] > -1 then
+        if data and data.Description and not data.PartyActionResource and _S.ReplenishType[ data.ReplenishType[ 1 ] ] > -1 then
             ret[ uuid ] = {}
             for i=0,data.MaxLevel do
                 ret[ uuid ][ i ] = -1.0
@@ -71,7 +71,7 @@ _S.DefaultResources = function()
     for _,name in ipairs( Ext.Stats.GetStats( "SpellData" ) ) do
         local data = Ext.Stats.Get( name )
 
-        if data and _S.ReplenishType[ data.Cooldown ] > -1 then
+        if data and data.Description and _S.ReplenishType[ data.Cooldown ] > -1 then
             ret[ name ] = { [ 0 ] = -1.0 }
         end
     end
