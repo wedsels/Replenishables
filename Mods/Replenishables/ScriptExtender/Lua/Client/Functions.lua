@@ -39,8 +39,11 @@ return function( _S, _V )
         end
     end
 
-    _F.UpdateStrings = function( uuid, levels )
-        local ent = _C()
+    _F.UpdateStrings = function( character, uuid, levels )
+        local ent = Ext.Entity.Get( character )
+        if not ent then
+            return
+        end
 
         local string
 

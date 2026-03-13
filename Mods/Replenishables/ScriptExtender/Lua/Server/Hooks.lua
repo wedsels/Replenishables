@@ -2,16 +2,43 @@
 --- @param _V _SV
 --- @param _F _SF
 return function( _S, _V, _F )
-    Ext.Osiris.RegisterListener( "LevelGameplayStarted", 2, "after", function() _V.Loaded = true end )
+    Ext.Osiris.RegisterListener(
+        "GainedControl",
+        1,
+        "before",
+        function( target )
+            local ent = Ext.Entity.Get( target )
+
+            if not ent.Vars or not ent.Vars.Replenishables then
+                return
+            end
+
+            for uuid,levels in pairs( ent.Vars.Replenishables ) do
+                for level,cooldown in pairs( levels ) do
+                    level = tonumber( level )
+                    cooldown = tonumber( cooldown )
+
+                    local rep = _F.Replenishable( ent, uuid, level )
+                    rep.Set( cooldown )
+                end
+            end
+
+            SpellBook( ent )
+            ActionResource( ent )
+        end
+    )
 
     Ext.Osiris.RegisterListener( "KilledBy", 4, "before", function( _, attacker ) _F.TriggerCooldown( Ext.Entity.Get( attacker ), _S.CooldownSource.Kill ) end )
     Ext.Osiris.RegisterListener( "CastedSpell", 5, "before", function( caster ) _F.TriggerCooldown( Ext.Entity.Get( caster ), _S.CooldownSource.Cast ) end )
     Ext.Osiris.RegisterListener( "AttackedBy", 7, "before", function( defender, attacker, _, _, damage ) if damage > 0 then _F.TriggerCooldown( Ext.Entity.Get( defender ), _S.CooldownSource.Hurt ) _F.TriggerCooldown( Ext.Entity.Get( attacker ), _S.CooldownSource.Attack ) end end )
     Ext.Osiris.RegisterListener( "TurnStarted", 1, "before", function( uuid ) _F.TriggerCooldown( Ext.Entity.Get( uuid ), _S.CooldownSource.Turn ) end )
 
-    Ext.Entity.OnChange(
-        "SpellBookCooldowns",
-        function( ent )
+    Ext.Entity.OnChange( "SpellBookCooldowns", function( ent ) SpellBook( ent ) end )
+    function SpellBook( ent )
+            if not ent.SpellBookCooldowns or not ent.SpellBookCooldowns.Cooldowns then
+                return
+            end
+
             if not ent.Vars.Replenishables then
                 ent.Vars.Replenishables = _S.DefaultResources()
             end
@@ -38,35 +65,32 @@ return function( _S, _V, _F )
             end
 
             _F.UpdateProgress( ent )
+    end
+
+    Ext.Entity.OnChange( "ActionResources", function( ent ) ActionResource( ent ) end )
+    function ActionResource( ent )
+        if not ent.Vars.Replenishables then
+            ent.Vars.Replenishables = _S.DefaultResources()
         end
-    )
 
-    Ext.Entity.OnChange(
-        "ActionResources",
-        function( ent )
-            if not ent.Vars.Replenishables then
-                ent.Vars.Replenishables = _S.DefaultResources()
-            end
+        for uuid,levels in pairs( ent.ActionResources.Resources ) do
+            for _,resource in ipairs( levels ) do
+                if _S.Resources[ uuid ] then
+                    local rep = _F.Replenishable( ent, uuid, resource.Level )
 
-            for uuid,levels in pairs( ent.ActionResources.Resources ) do
-                for _,resource in ipairs( levels ) do
-                    if _S.Resources[ uuid ] then
-                        local rep = _F.Replenishable( ent, uuid, resource.Level )
-
-                        if resource.Amount < resource.MaxAmount then
-                            if rep.Get() < 0.0 then
-                                rep.Set( ent.Stats and ent.Stats.Abilities[ _S.Abilities[ _S.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Ability ] ] * _S.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Scale or 0 )
-                            end
-                        elseif rep.Get() > -1.0 then
-                            rep.Set( math.maxinteger )
+                    if resource.Amount < resource.MaxAmount then
+                        if rep.Get() < 0.0 then
+                            rep.Set( ent.Stats and ent.Stats.Abilities[ _S.Abilities[ _S.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Ability ] ] * _S.AbilityCooldownLink[ _S.CooldownSource.Reduction ].Scale or 0 )
                         end
+                    elseif rep.Get() > -1.0 then
+                        rep.Set( math.maxinteger )
                     end
                 end
             end
-
-            _F.UpdateProgress( ent )
         end
-    )
+
+        _F.UpdateProgress( ent )
+    end
 
     local tick = 0
     Ext.Events.Tick:Subscribe(

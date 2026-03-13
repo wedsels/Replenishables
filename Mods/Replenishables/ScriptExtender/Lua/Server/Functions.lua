@@ -19,8 +19,8 @@ return function( _S, _V )
                 ent.Vars.Replenishables[ uuid ][ level ] = v and tostring( v ) or v
                 ent.Vars.Replenishables = ent.Vars.Replenishables
 
-                if _V.Loaded then
-                    _S.Channel:SendToClient( { uuid = uuid, levels = ent.Vars.Replenishables[ uuid ] }, _S.UUID( ent ) )
+                if ent.ServerCharacter and ent.ServerCharacter.UserID and ent.ServerCharacter.UserID ~= 4294901760 then
+                    _S.Channel:SendToClient( { character = _S.UUID( ent ), uuid = uuid, levels = ent.Vars.Replenishables[ uuid ] }, ent.ServerCharacter.UserID )
                 end
             end
         }

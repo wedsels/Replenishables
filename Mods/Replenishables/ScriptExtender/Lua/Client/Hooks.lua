@@ -4,5 +4,5 @@
 return function( _S, _V, _F )
     Ext.Events.StatsLoaded:Subscribe( _F.UpdateAbilities )
 
-    _S.Channel:SetHandler( function( data, user ) _F.UpdateStrings( data.uuid, data.levels ) end )
+    _S.Channel:SetHandler( function( data, user ) _F.UpdateStrings( data.character, data.uuid, data.levels ) end )
 end
